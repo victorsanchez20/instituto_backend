@@ -32,4 +32,8 @@ public class AulaService {
     public void deleteById(long id) {
         this.aulaRepository.deleteById(id);
     }
+
+    public List<Aula> obtenerAulasPorCurso(Long cursoId) {
+        return aulaRepository.findByCursoId(cursoId);
+    }
 }

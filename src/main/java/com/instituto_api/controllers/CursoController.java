@@ -5,24 +5,28 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.instituto_api.models.Aula;
 import com.instituto_api.models.Curso;
+import com.instituto_api.services.AulaService;
 import com.instituto_api.services.CursoService;
-import org.springframework.web.bind.annotation.PutMapping;
-
 
 import java.nio.file.Path;
+
 
 @RestController
 @RequestMapping("api/instituto/curso")
 public class CursoController {
 
     private final CursoService cursoService;
+    private final AulaService aulaService;
 
-    public CursoController(CursoService cursoService) {
+    public CursoController(CursoService cursoService, AulaService aulaService) {
         this.cursoService = cursoService;
+        this.aulaService = aulaService;
     }
 
     @GetMapping
@@ -72,4 +76,16 @@ public class CursoController {
         curso.setId(id);
         return this.cursoService.save(curso);
     }
+
+    @GetMapping("/{id}")
+    public Curso obtenerCurso(@PathVariable Long id) {
+        return this.cursoService.getById(id);
+    }
+
+    @GetMapping("/{id}/aulas")
+    public ResponseEntity<List<Aula>> getAulasByCurso(@PathVariable("id") Long cursoId) {
+        List<Aula> aulas = aulaService.obtenerAulasPorCurso(cursoId);
+        return ResponseEntity.ok(aulas);
+    }
+    
 }

@@ -3,7 +3,6 @@ package com.instituto_api.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import com.instituto_api.models.Curso;
 import com.instituto_api.repositories.CursoRepository;
 
@@ -31,5 +30,9 @@ public class CursoService {
     public Curso update(Long id, Curso curso) {
         curso.setId(id);
         return this.cursoRepository.save(curso);
+    }
+
+    public Curso getById(Long id) {
+        return this.cursoRepository.getById(id);
     }
 }
