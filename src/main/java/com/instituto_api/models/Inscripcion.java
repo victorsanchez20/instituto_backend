@@ -2,6 +2,7 @@ package com.instituto_api.models;
 
 import java.time.LocalDate;
 
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,19 +12,15 @@ public class Inscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idInscripcion;
-
     @ManyToOne
     @JoinColumn(name = "id_alumno", nullable = false)
     private Alumno alumno;
-
     @ManyToOne
     @JoinColumn(name = "id_aula", nullable = false)
     private Aula aula;
-
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "estado_id", nullable = false)
     private EstadoInscripcion estado;
 

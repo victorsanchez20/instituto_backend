@@ -2,20 +2,8 @@ package com.instituto_api.models;
 
 import java.time.LocalDate;
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Aula {
@@ -58,7 +46,13 @@ public class Aula {
     @JsonProperty("id_curso")
     private Curso curso;
 
-    public Aula(Long id, String codigo, String duracion, Set<Dia> dias, Long cantidad, LocalDate fechaInicio, LocalDate fechaFin, Profesores idProfesor, Curso curso) {
+    @Column(name = "link_meet")
+    private String linkMeet;
+
+    @Column(name = "link_classroom")
+    private String linkClassroom;
+
+    public Aula(Long id, String codigo, String duracion, Set<Dia> dias, Long cantidad, LocalDate fechaInicio, LocalDate fechaFin, Profesores idProfesor, Curso curso, String linkMeet, String linkClassroom) {
         this.id = id;
         this.codigo = codigo;
         this.duracion = duracion;
@@ -68,6 +62,8 @@ public class Aula {
         this.fechaFin = fechaFin;
         this.idProfesor = idProfesor;
         this.curso = curso;
+        this.linkMeet = linkMeet;
+        this.linkClassroom = linkClassroom;
     }
     public Aula() {}
 
@@ -83,10 +79,26 @@ public class Aula {
     public void setDias(Set<Dia> dias) { this.dias = dias; }
     public Profesores getIdProfesor() { return idProfesor; }
     public void setIdProfesor(Profesores idProfesor) { this.idProfesor = idProfesor; }
-    public Curso getIdCurso() { return curso; }
-    public void setIdCurso(Curso idCurso) { this.curso = idCurso; }
+    public Curso getCurso() { return curso; }
+    public void setCurso(Curso curso) { this.curso = curso; }
     public LocalDate getFechaInicio() { return fechaInicio; }
     public void setFechaInicio(LocalDate fechaInicio) { this.fechaInicio = fechaInicio; }
     public LocalDate getFechaFin() { return fechaFin; }
     public void setFechaFin(LocalDate fechaFin) { this.fechaFin = fechaFin; }
+
+    public String getLinkMeet() {
+        return linkMeet;
+    }
+
+    public void setLinkMeet(String linkMeet) {
+        this.linkMeet = linkMeet;
+    }
+
+    public String getLinkClassroom() {
+        return linkClassroom;
+    }
+
+    public void setLinkClassroom(String linkClassroom) {
+        this.linkClassroom = linkClassroom;
+    }
 }

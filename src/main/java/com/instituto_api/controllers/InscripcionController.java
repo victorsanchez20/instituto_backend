@@ -1,16 +1,18 @@
 package com.instituto_api.controllers;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.instituto_api.dto.ActualizarEstadoRequest;
+import com.instituto_api.dto.InscripcionPorAulaDTO;
+import com.instituto_api.models.Aula;
 import com.instituto_api.models.Inscripcion;
+import com.instituto_api.models.InscripcionRequest;
+import com.instituto_api.services.AulaService;
 import com.instituto_api.services.InscripcionService;
 
 @RestController
@@ -18,9 +20,13 @@ import com.instituto_api.services.InscripcionService;
 public class InscripcionController {
 
     private final InscripcionService inscripcionService;
+    private final AulaService aulaService;
 
-    public InscripcionController(InscripcionService inscripcionService) {
+    public InscripcionController(InscripcionService inscripcionService,
+                                AulaService aulaService
+    ) {
         this.inscripcionService = inscripcionService;
+        this.aulaService = aulaService; 
     }
 
     // Obtener todas las inscripciones
@@ -28,6 +34,13 @@ public class InscripcionController {
     public List<Inscripcion> getAll() {
         return inscripcionService.getAllInscripciones();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Inscripcion> getById(@PathVariable Long id) {
+        Inscripcion inscripcion = inscripcionService.getInscriptionById(id);
+        return ResponseEntity.ok(inscripcion);
+    }
+    
 
     // OBTENER INSCRIPCIONES POR ID DE ALUMNO
     // Ejemplo: GET /api/instituto/inscripcion/alumno/5
@@ -38,13 +51,38 @@ public class InscripcionController {
 
     // Crear una nueva inscripción
     @PostMapping
-    public Inscripcion save(@RequestBody Inscripcion inscripcion) {
+    public Inscripcion save(@RequestBody InscripcionRequest inscripcion) {
         return inscripcionService.create(inscripcion);
     }
 
-    // Eliminar una inscripción
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        inscripcionService.deleteById(id);
+    public void cancelar(@PathVariable Long id) {
+        inscripcionService.cancelar(id);
     }
+
+    @GetMapping("/cantidad-por-aula")
+    public List<Map<String, Object>> cantidadPorAula() {
+        return inscripcionService.obtenerCantidadPorAula();
+    }
+
+    @GetMapping("/alumno/{id}/clases-hoy")
+    public List<Aula> clasesHoy(@PathVariable Long id) {
+        return aulaService.aulasActivasHoy(id);
+    }
+
+    @GetMapping("/aula/{aulaId}")
+    public List<InscripcionPorAulaDTO> obtenerPorAula(@PathVariable Long aulaId) {
+        return inscripcionService.obtenerPorAula(aulaId);
+    }
+
+    @PutMapping("/estado/{id}")
+    public ResponseEntity<?> cambiarEstado(
+            @PathVariable Long id,
+            @RequestBody ActualizarEstadoRequest request) {
+
+        inscripcionService.cambiarEstado(id, request.getEstadoId());
+        return ResponseEntity.ok().build();
+    }
+
+
 }

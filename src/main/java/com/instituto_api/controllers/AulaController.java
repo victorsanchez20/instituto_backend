@@ -2,17 +2,11 @@ package com.instituto_api.controllers;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.instituto_api.models.Aula;
+import com.instituto_api.models.AulaConInscritosDTO;
 import com.instituto_api.services.AulaService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -30,6 +24,11 @@ public class AulaController {
         return this.aulaService.getAllAulas();
     }
 
+    @GetMapping("/{id}")
+    public Aula listarAulaPorId(@PathVariable Long id) {
+        return this.aulaService.readClassroomById(id);
+    }
+
     @PostMapping
     public Aula guardarAula(@RequestBody Aula aula) {
         return this.aulaService.save(aula);
@@ -45,4 +44,11 @@ public class AulaController {
         aula.getId();
         return this.aulaService.update(aula, id);
     }
+
+    @GetMapping("/con-inscritos")
+    public List<AulaConInscritosDTO> listar() {
+        return aulaService.listarAulasConInscritos();
+    }
+
+
 }
