@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.instituto_api.models.Alumno;
 import com.instituto_api.services.AlumnoService;
 
+
 @RestController
 @RequestMapping("/api/instituto/alumno")
 public class AlumnoController {
@@ -30,4 +31,10 @@ public class AlumnoController {
     public Alumno crearAlumno(@RequestBody Alumno alumno) {
         return this.alumnoService.saveAlumno(alumno);
     }
+
+    @GetMapping("/total")
+    public Number totalEstudiantes() {
+        return this.alumnoService.totalAlumnos();
+    }
+    
 }

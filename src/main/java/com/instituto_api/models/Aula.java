@@ -36,6 +36,14 @@ public class Aula {
     @JsonProperty("fecha_fin")
     private LocalDate fechaFin;
 
+    @Column(name = "hora_inicio")
+    @JsonProperty("hora_inicio")
+    private String horaInicio;
+
+    @Column(name = "hora_fin")
+    @JsonProperty("hora_fin")
+    private String horaFin;
+
     @ManyToOne
     @JoinColumn(name = "idProfesor", nullable = false)
     @JsonProperty("id_profesor")
@@ -52,7 +60,8 @@ public class Aula {
     @Column(name = "link_classroom")
     private String linkClassroom;
 
-    public Aula(Long id, String codigo, String duracion, Set<Dia> dias, Long cantidad, LocalDate fechaInicio, LocalDate fechaFin, Profesores idProfesor, Curso curso, String linkMeet, String linkClassroom) {
+
+    public Aula(Long id, String codigo, String duracion, Set<Dia> dias, Long cantidad, LocalDate fechaInicio, LocalDate fechaFin, Profesores idProfesor, Curso curso, String linkMeet, String linkClassroom, String horaInicio, String horaFin) {
         this.id = id;
         this.codigo = codigo;
         this.duracion = duracion;
@@ -60,6 +69,8 @@ public class Aula {
         this.dias = dias;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
         this.idProfesor = idProfesor;
         this.curso = curso;
         this.linkMeet = linkMeet;
@@ -85,20 +96,13 @@ public class Aula {
     public void setFechaInicio(LocalDate fechaInicio) { this.fechaInicio = fechaInicio; }
     public LocalDate getFechaFin() { return fechaFin; }
     public void setFechaFin(LocalDate fechaFin) { this.fechaFin = fechaFin; }
+    public String getLinkMeet() { return linkMeet; }
+    public void setLinkMeet(String linkMeet) { this.linkMeet = linkMeet; }
+    public String getLinkClassroom() { return linkClassroom; }
+    public void setLinkClassroom(String linkClassroom) { this.linkClassroom = linkClassroom; }
 
-    public String getLinkMeet() {
-        return linkMeet;
-    }
-
-    public void setLinkMeet(String linkMeet) {
-        this.linkMeet = linkMeet;
-    }
-
-    public String getLinkClassroom() {
-        return linkClassroom;
-    }
-
-    public void setLinkClassroom(String linkClassroom) {
-        this.linkClassroom = linkClassroom;
-    }
+    public String getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
+    public String getHoraFin() { return horaFin; }
+    public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
 }

@@ -38,5 +38,11 @@ public class ProfesorController {
     public void eliminarPorId(@PathVariable Long id) {
         this.profesorService.deleteById(id);
     }
+
+    @GetMapping("/total")
+    public long totalProfesores() {
+        return this.profesorService.totalProfesores();
+    }
+    
     
 }

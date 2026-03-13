@@ -44,4 +44,8 @@ public class AlumnoService {
     }
 
     // ... aquí siguen tus otros métodos como getAllAlumnos() y saveAlumno()
+
+    public Long totalAlumnos() {
+        return alumnoRepository.totalAlumnos();
+    }
 }

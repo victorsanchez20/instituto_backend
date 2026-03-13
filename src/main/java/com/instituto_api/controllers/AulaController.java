@@ -2,6 +2,7 @@ package com.instituto_api.controllers;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.instituto_api.models.Aula;
@@ -50,5 +51,8 @@ public class AulaController {
         return aulaService.listarAulasConInscritos();
     }
 
-
+    @GetMapping("/total")
+    public ResponseEntity<Long> totalAulas() {
+        return ResponseEntity.ok(aulaService.totalAulas());
+    }
 }

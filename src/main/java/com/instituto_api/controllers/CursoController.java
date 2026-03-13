@@ -78,14 +78,26 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public Curso obtenerCurso(@PathVariable Long id) {
-        return this.cursoService.getById(id);
+    public ResponseEntity<Curso> obtenerCurso(@PathVariable Long id) {
+        return cursoService.getById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}/aulas")
     public ResponseEntity<List<Aula>> getAulasByCurso(@PathVariable("id") Long cursoId) {
         List<Aula> aulas = aulaService.obtenerAulasPorCurso(cursoId);
         return ResponseEntity.ok(aulas);
+    }
+
+    @GetMapping("/total") 
+    public Long totalCursos() {
+        return this.cursoService.totalCursos();
+    }
+
+    @GetMapping("/inscritos-por-curso")
+    public ResponseEntity<List<Object[]>> totalInscritosPorCurso() {
+        return ResponseEntity.ok(cursoService.totalInscritosPorCurso());
     }
     
 }

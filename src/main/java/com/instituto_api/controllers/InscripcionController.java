@@ -84,5 +84,14 @@ public class InscripcionController {
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/ultimas-inscripciones-pendientes")
+    public ResponseEntity<?> obtenerUltimasInscripcionesPendientes() {
+        List<Object[]> result = inscripcionService.UltimasInscripcionesPendientes();
+        
+        if(result.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        
+        return ResponseEntity.ok(result);
+    }
 }

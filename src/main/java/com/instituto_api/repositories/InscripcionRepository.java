@@ -32,4 +32,24 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> 
     List<Inscripcion> obtenerCursosDelAlumno(@Param("alumnoId") Long alumnoId);
 
     List<Inscripcion> findByAula_Id(Long aulaId);
+
+    @Query(value = """
+            SELECT 
+                a.nombre_completo,
+                a.apellidos,
+                c.nombre,
+                au.codigo AS aula,
+                i.fecha_creacion,
+                ei.nombre
+            FROM inscripciones i
+            JOIN alumno a ON i.id_alumno = a.id
+            JOIN aula au ON i.id_aula = au.id
+            JOIN curso c ON au.id_curso = c.id
+            JOIN estado_inscripcion ei ON i.estado_id = ei.id
+            WHERE i.estado_id = 2
+            ORDER BY i.fecha_creacion DESC
+            LIMIT 5;
+
+            """, nativeQuery = true)
+    List<Object[]> obtenerInscripcionesRecientes();
 }

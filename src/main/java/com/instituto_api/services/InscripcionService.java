@@ -152,4 +152,13 @@ public class InscripcionService {
 
         inscripcionRepository.save(inscripcion);
     }
+
+    public Inscripcion update(Long id, Inscripcion inscripcion) {
+        inscripcion.setIdInscripcion(id);
+        return this.inscripcionRepository.save(inscripcion);
+    } 
+
+    public List<Object[]> UltimasInscripcionesPendientes() {
+        return this.inscripcionRepository.obtenerInscripcionesRecientes();
+    }
 }

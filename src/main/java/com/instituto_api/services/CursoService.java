@@ -1,6 +1,7 @@
 package com.instituto_api.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.instituto_api.models.Curso;
@@ -28,11 +29,23 @@ public class CursoService {
     }
 
     public Curso update(Long id, Curso curso) {
+        if (!cursoRepository.existsById(id)) {
+            throw new RuntimeException("Curso no encontrado");
+        }
+
         curso.setId(id);
         return this.cursoRepository.save(curso);
     }
 
-    public Curso getById(Long id) {
-        return this.cursoRepository.getById(id);
+    public Optional<Curso> getById(Long id) {
+        return this.cursoRepository.findById(id);
+    }
+
+    public Long totalCursos() {
+        return this.cursoRepository.totalCursos();
+    }
+
+    public List<Object[]> totalInscritosPorCurso() {
+        return cursoRepository.totalInscritosPorCurso();
     }
 }

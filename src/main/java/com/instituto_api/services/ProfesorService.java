@@ -27,4 +27,8 @@ public class ProfesorService {
     public void deleteById(Long id) {
         this.profesorRepository.deleteById(id);
     }
+
+    public long totalProfesores() {
+        return this.profesorRepository.totalProfesores();
+    }
 }

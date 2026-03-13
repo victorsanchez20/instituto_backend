@@ -79,5 +79,9 @@ public class AulaService {
             .toList();
     }
 
+    public Long totalAulas() {
+        return this.aulaRepository.totalAulas();
+    }
+
 
 }
