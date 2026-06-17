@@ -65,6 +65,11 @@ public class CursoController {
         }
     }
 
+    @GetMapping("/inscritos-por-curso")
+    public ResponseEntity<List<Object[]>> totalInscritosPorCurso() {
+        return ResponseEntity.ok(cursoService.totalInscritosPorCurso());
+    }
+
 
     @DeleteMapping("/{id}")
     public void eliminarCurso(@PathVariable Long id) {
@@ -93,11 +98,5 @@ public class CursoController {
     @GetMapping("/total") 
     public Long totalCursos() {
         return this.cursoService.totalCursos();
-    }
-
-    @GetMapping("/inscritos-por-curso")
-    public ResponseEntity<List<Object[]>> totalInscritosPorCurso() {
-        return ResponseEntity.ok(cursoService.totalInscritosPorCurso());
-    }
-    
+    }    
 }
