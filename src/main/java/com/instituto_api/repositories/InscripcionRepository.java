@@ -3,12 +3,10 @@ package com.instituto_api.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.instituto_api.models.Inscripcion;
 import java.util.List;
 
-@Repository
 public interface InscripcionRepository extends JpaRepository<Inscripcion, Long>  {
     List<Inscripcion> findByAlumno_Id(Long id);
 

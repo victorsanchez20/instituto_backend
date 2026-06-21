@@ -3,6 +3,7 @@ package com.instituto_api.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.instituto_api.models.Alumno;
@@ -12,9 +13,13 @@ import com.instituto_api.repositories.AlumnoRepository;
 public class AlumnoService {
 
     private final AlumnoRepository alumnoRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AlumnoService(AlumnoRepository alumnoRepository) {
+    public AlumnoService(AlumnoRepository alumnoRepository,
+                         PasswordEncoder passwordEncoder
+    ) {
         this.alumnoRepository = alumnoRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Alumno> getAllAlumnos() {
@@ -22,6 +27,7 @@ public class AlumnoService {
     } 
 
     public Alumno saveAlumno(Alumno alumno) {
+        alumno.setPassword(passwordEncoder.encode(alumno.getPassword()));
         return alumnoRepository.save(alumno);
     }
 
@@ -38,7 +44,7 @@ public class AlumnoService {
     public Optional<Alumno> login(String usuario, String password) {
         // 1. Buscamos al alumno por su nombre de usuario
         return alumnoRepository.findByUsuario(usuario)
-                .filter(alumno -> alumno.getPassword().equals(password)); 
+                .filter(alumno -> passwordEncoder.matches(password, alumno.getPassword())); 
                 // El filter verifica si la contraseña coincide. 
                 // Si coincide, devuelve el Alumno. Si no, devuelve vacío.
     }
