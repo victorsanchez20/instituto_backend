@@ -1,5 +1,6 @@
 package com.instituto_api.services;
 
+import com.instituto_api.models.Curso;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
@@ -15,15 +16,22 @@ import java.util.List;
 @Service
 public class PagosService {
 
-    public String crearPago() throws Exception {
+    private final CursoService cursoService;
+
+    public PagosService(CursoService cursoService) {
+        this.cursoService = cursoService;
+    }
+
+        public String crearPago(Long cursoId) throws Exception {
+        Curso curso = cursoService.getById(cursoId).orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
         PreferenceItemRequest item =
-                PreferenceItemRequest.builder()
-                        .title("Matrícula Instituto")
-                        .quantity(1)
-                        .currencyId("PEN")
-                        .unitPrice(new BigDecimal("100.00"))
-                        .build();
+            PreferenceItemRequest.builder()
+                .title(curso.getNombre())
+                .quantity(1)
+                .currencyId("PEN")
+                .unitPrice(curso.getPrecio())
+                .build();
 
         PreferenceBackUrlsRequest backUrls =
                 PreferenceBackUrlsRequest.builder()

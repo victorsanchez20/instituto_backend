@@ -37,6 +37,7 @@ public class CursoController {
    @PostMapping("/guardar-con-imagen")
     public Curso guardarCursoConImagen(
             @RequestParam("nombre") String nombre,
+            @RequestParam("precio") Double precio,
             @RequestParam("descripcion") String descripcion,
             @RequestParam("imagen") MultipartFile imagen
     ) {

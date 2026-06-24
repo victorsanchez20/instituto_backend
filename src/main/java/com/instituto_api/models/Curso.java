@@ -1,5 +1,7 @@
 package com.instituto_api.models;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,14 +15,17 @@ public class Curso {
     private Long id;
     @Column(name = "nombre", nullable = false)
     private String nombre;
+    @Column(name="precio", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precio;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
     @Column(name = "imagen")
     private String imagen;
 
-    public Curso(Long id, String nombre, String descripcion, String imagen) {
+    public Curso(Long id, String nombre, BigDecimal precio, String descripcion, String imagen) {
         this.id = id;
         this.nombre = nombre;
+        this.precio = precio;
         this.descripcion = descripcion;
         this.imagen = imagen;
     }
@@ -33,5 +38,7 @@ public class Curso {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public String getImagen() { return imagen; }
-    public void setImagen(String imagen) { this.imagen = imagen; } 
+    public void setImagen(String imagen) { this.imagen = imagen; }
+    public BigDecimal getPrecio() { return precio; }
+    public void setPrecio(BigDecimal precio) { this.precio = precio; }   
 }
