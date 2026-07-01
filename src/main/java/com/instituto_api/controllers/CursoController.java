@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.math.BigDecimal;
 
 import com.instituto_api.models.Aula;
 import com.instituto_api.models.Curso;
@@ -37,7 +38,7 @@ public class CursoController {
    @PostMapping("/guardar-con-imagen")
     public Curso guardarCursoConImagen(
             @RequestParam("nombre") String nombre,
-            @RequestParam("precio") Double precio,
+            @RequestParam("precio") BigDecimal precio,
             @RequestParam("descripcion") String descripcion,
             @RequestParam("imagen") MultipartFile imagen
     ) {
@@ -57,6 +58,7 @@ public class CursoController {
             Curso curso = new Curso();
             curso.setNombre(nombre);
             curso.setDescripcion(descripcion);
+            curso.setPrecio(precio); 
             curso.setImagen("/uploads/cursos/" + nombreArchivo);
 
             return cursoService.save(curso);
