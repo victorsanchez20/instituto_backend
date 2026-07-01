@@ -15,7 +15,7 @@ public class Curso {
     private Long id;
     @Column(name = "nombre", nullable = false)
     private String nombre;
-    @Column(name="precio", precision = 10, scale = 2)
+    @Column(name="precio", nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;

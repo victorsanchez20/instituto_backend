@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.instituto_api.models.Admin;
 import com.instituto_api.models.Alumno;
+import com.instituto_api.services.AdminService;
 import com.instituto_api.services.AlumnoService;
 
 @RestController
@@ -23,17 +25,18 @@ public class AuthController {
     @Autowired
     AlumnoService alumnoService;
 
+    @Autowired
+    AdminService adminService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
         System.out.println("Usuario recibido: " + credenciales.get("user"));
         System.out.println("Password recibida: " + credenciales.get("pass"));
 
-
-        // Cambiamos el tipo a Optional<Alumno>
         Optional<Alumno> alumnoOpt = alumnoService.login(credenciales.get("user"), credenciales.get("pass"));
 
         if (alumnoOpt.isPresent()) {
-            Alumno alumno = alumnoOpt.get(); // Aquí extraemos al alumno de la "caja"
+            Alumno alumno = alumnoOpt.get();
             alumno.setPassword(null);
             return ResponseEntity.ok(alumno);
         } else {
@@ -41,4 +44,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/login/admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody Map<String, String> credenciales) {
+        System.out.println("Admin login - Usuario: " + credenciales.get("user"));
+
+        Optional<Admin> adminOpt = adminService.login(credenciales.get("user"), credenciales.get("pass"));
+
+        if (adminOpt.isPresent()) {
+            Admin admin = adminOpt.get();
+            admin.setPassword(null);
+            return ResponseEntity.ok(admin);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales de administrador inválidas");
+        }
+    }
 }
