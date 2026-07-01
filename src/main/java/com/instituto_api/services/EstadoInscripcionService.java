@@ -19,4 +19,9 @@ public class EstadoInscripcionService {
     public List<EstadoInscripcion> getAllEstados() {
         return this.estadoInscripcionRepository.findAll();
     }
+
+    public EstadoInscripcion findByCodigo(String codigo) {
+        return estadoInscripcionRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new RuntimeException("Estado no encontrado: " + codigo));
+    }
 }

@@ -25,3 +25,7 @@ ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre;
 INSERT INTO estado_inscripcion (id, codigo, nombre, descripcion, activo)
 VALUES (7, 'ANU', 'Anulado', 'Inscripción cancelada', true)
 ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre;
+
+INSERT INTO estado_inscripcion (id, codigo, nombre, descripcion, activo)
+VALUES (8, 'APR', 'aprobado', 'Pago aprobado, acceso completo', true)
+ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre;

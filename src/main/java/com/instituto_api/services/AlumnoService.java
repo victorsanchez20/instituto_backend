@@ -31,8 +31,38 @@ public class AlumnoService {
         return alumnoRepository.save(alumno);
     }
 
+    public Optional<Alumno> getById(Long id) {
+        return alumnoRepository.findById(id);
+    }
+
     public void deleteById(long id) {
         this.alumnoRepository.deleteById(id);
+    }
+
+    public Alumno updateAlumno(Long id, Alumno updated) {
+        Alumno alumno = alumnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        alumno.setApellidos(updated.getApellidos());
+        alumno.setNombres(updated.getNombres());
+        alumno.setEmail(updated.getEmail());
+        alumno.setUsuario(updated.getUsuario());
+        alumno.setDocumento(updated.getDocumento());
+        alumno.setTelefono(updated.getTelefono());
+        alumno.setFechaNacimiento(updated.getFechaNacimiento());
+        alumno.setDireccion(updated.getDireccion());
+        alumno.setGenero(updated.getGenero());
+        return alumnoRepository.save(alumno);
+    }
+
+    public boolean changePassword(Long id, String oldPassword, String newPassword) {
+        Alumno alumno = alumnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        if (!passwordEncoder.matches(oldPassword, alumno.getPassword())) {
+            return false;
+        }
+        alumno.setPassword(passwordEncoder.encode(newPassword));
+        alumnoRepository.save(alumno);
+        return true;
     }
 
     /**

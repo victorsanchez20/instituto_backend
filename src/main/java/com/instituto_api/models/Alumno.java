@@ -1,5 +1,7 @@
 package com.instituto_api.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,27 +16,47 @@ public class Alumno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "apellidos" , nullable = false)
+
+    @Column(nullable = false)
     private String apellidos;
+
     @Column(name = "nombre_completo", nullable = false)
     private String nombres;
-    @Column(name = "email", nullable = false)
+
+    @Column(nullable = false)
     private String email;
-    @Column(name = "usuario", nullable = false)
+
+    @Column(nullable = false)
     private String usuario;
-    @Column(name = "password", nullable = false)
+
+    @Column(nullable = false)
     private String password;
 
-    public Alumno(Long id, String apellidos, String nombres, String email, String usuario, String password) {
-        this.id = id;
+    private String documento;
+
+    private String telefono;
+
+    private LocalDate fechaNacimiento;
+
+    private String direccion;
+
+    private String genero;
+
+    public Alumno() {}
+
+    public Alumno(String apellidos, String nombres, String email, String usuario, String password,
+                  String documento, String telefono, LocalDate fechaNacimiento, String direccion, String genero) {
         this.apellidos = apellidos;
         this.nombres = nombres;
         this.email = email;
         this.usuario = usuario;
         this.password = password;
+        this.documento = documento;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.genero = genero;
     }
-
-    public Alumno() { }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -48,4 +70,14 @@ public class Alumno {
     public void setUsuario(String usuario) { this.usuario = usuario; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+    public String getDocumento() { return documento; }
+    public void setDocumento(String documento) { this.documento = documento; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getGenero() { return genero; }
+    public void setGenero(String genero) { this.genero = genero; }
 }
