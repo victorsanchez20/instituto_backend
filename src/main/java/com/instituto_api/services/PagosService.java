@@ -1,7 +1,9 @@
 package com.instituto_api.services;
 
+import com.instituto_api.models.Aula;
 import com.instituto_api.models.Curso;
 import com.instituto_api.models.Inscripcion;
+import com.instituto_api.models.InscripcionRequest;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
@@ -23,6 +25,8 @@ public class PagosService {
     private final CursoService cursoService;
     private final InscripcionService inscripcionService;
     private final EstadoInscripcionService estadoInscripcionService;
+    private final AlumnoService alumnoService;
+    private final AulaService aulaService;
 
     @Value("${spring.profiles.active:local}")
     private String activeProfile;
@@ -35,10 +39,14 @@ public class PagosService {
 
     public PagosService(CursoService cursoService,
                         InscripcionService inscripcionService,
-                        EstadoInscripcionService estadoInscripcionService) {
+                        EstadoInscripcionService estadoInscripcionService,
+                        AlumnoService alumnoService,
+                        AulaService aulaService) {
         this.cursoService = cursoService;
         this.inscripcionService = inscripcionService;
         this.estadoInscripcionService = estadoInscripcionService;
+        this.alumnoService = alumnoService;
+        this.aulaService = aulaService;
     }
 
     public String crearPago(Long inscripcionId, String frontendUrl) throws Exception {
@@ -93,6 +101,22 @@ public class PagosService {
             System.out.println("RESPONSE: " + e.getApiResponse().getContent());
             throw new RuntimeException("Error al crear preferencia de pago: " + e.getApiResponse().getContent());
         }
+    }
+
+    public String crearPagoDesdeCurso(Long cursoId, Long aulaId, Long alumnoId, String frontendUrl) throws Exception {
+        if (alumnoId == null) {
+            throw new RuntimeException("Se requiere alumnoId para crear inscripción desde curso");
+        }
+        if (aulaId == null) {
+            List<Aula> aulas = aulaService.obtenerAulasPorCurso(cursoId);
+            if (aulas.isEmpty()) {
+                throw new RuntimeException("No hay aulas disponibles para el curso " + cursoId);
+            }
+            aulaId = aulas.get(0).getId();
+        }
+        InscripcionRequest request = new InscripcionRequest(alumnoId, aulaId, null);
+        Inscripcion inscripcion = inscripcionService.create(request);
+        return crearPago(inscripcion.getIdInscripcion(), frontendUrl);
     }
 
     public String verificarPago(String paymentId) {

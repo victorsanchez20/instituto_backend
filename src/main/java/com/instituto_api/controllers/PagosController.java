@@ -20,13 +20,21 @@ public class PagosController {
     }
 
     @PostMapping("/crear")
-    public Map<String, String> crearPago(@RequestParam Long inscripcionId,
+    public Map<String, String> crearPago(@RequestParam(required = false) Long inscripcionId,
+                                          @RequestParam(required = false) Long cursoId,
+                                          @RequestParam(required = false) Long aulaId,
+                                          @RequestParam(required = false) Long alumnoId,
                                           @RequestParam String frontendUrl) throws Exception {
-        if (inscripcionId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing required parameter 'inscripcionId'");
+        if (inscripcionId != null) {
+            String url = pagoService.crearPago(inscripcionId, frontendUrl);
+            return Map.of("url", url);
         }
-        String url = pagoService.crearPago(inscripcionId, frontendUrl);
-        return Map.of("url", url);
+        if (cursoId != null) {
+            String url = pagoService.crearPagoDesdeCurso(cursoId, aulaId, alumnoId, frontendUrl);
+            return Map.of("url", url);
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+            "Debe enviar 'inscripcionId' o 'cursoId'");
     }
 
     @GetMapping("/verificar")
