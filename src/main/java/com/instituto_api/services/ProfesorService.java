@@ -24,6 +24,22 @@ public class ProfesorService {
         return this.profesorRepository.save(profesor);
     }
 
+    public Profesores update(Long id, Profesores updated) {
+        Profesores profesor = profesorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Profesor no encontrado con id: " + id));
+        profesor.setNombre(updated.getNombre());
+        profesor.setApellido(updated.getApellido());
+        profesor.setDocidentidad(updated.getDocidentidad());
+        profesor.setTelefono(updated.getTelefono());
+        profesor.setEspecialidad(updated.getEspecialidad());
+        profesor.setEmail(updated.getEmail());
+        profesor.setUsuario(updated.getUsuario());
+        if (updated.getPassword() != null && !updated.getPassword().isEmpty()) {
+            profesor.setPassword(updated.getPassword());
+        }
+        return profesorRepository.save(profesor);
+    }
+
     public void deleteById(Long id) {
         this.profesorRepository.deleteById(id);
     }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.instituto_api.models.Profesores;
 import com.instituto_api.services.ProfesorService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -32,6 +33,11 @@ public class ProfesorController {
     @PostMapping
     public Profesores crearProfesor(@RequestBody Profesores profesor) {
         return this.profesorService.save(profesor);
+    }
+
+    @PutMapping("/{id}")
+    public Profesores actualizarProfesor(@PathVariable Long id, @RequestBody Profesores profesor) {
+        return this.profesorService.update(id, profesor);
     }
 
     @DeleteMapping("/{id}")
